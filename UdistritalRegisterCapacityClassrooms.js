@@ -13,7 +13,7 @@ exports.handler = (event, context, callback) => {
   let buff = new Buffer(body, 'base64');
   let text = buff.toString('ascii');
   text = JSON.parse(text)
-  connection.query("INSERT INTO classrooms SET ?", text, (err, data) => {
+  connection.query("INSERT INTO capacityclassrooms SET ?", text, (err, data) => {
     if (err) {
       console.log("error:", err);
       return;

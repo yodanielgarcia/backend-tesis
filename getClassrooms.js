@@ -8,16 +8,17 @@ const connection = mysql.createConnection({
 });
 
 exports.handler = (event, context, callback) => {
+  // allows for using callbacks as finish/error-handlers
   context.callbackWaitsForEmptyEventLoop = false;
   let body = event.body;
   let buff = new Buffer(body, 'base64');
-  let text = buff.toString('ascii');
-  text = JSON.parse(text)
-  connection.query("INSERT INTO classrooms SET ?", text, (err, data) => {
+  let id = buff.toString('ascii');
+  const sql = "select * from classrooms where Id_faculty = " + id;
+  connection.query(sql, (err, res) => {
     if (err) {
-      console.log("error:", err);
-      return;
+      throw err
     }
-    callback(null, 'ok');
+    callback(null, res);
   });
+    
 };
